@@ -3,10 +3,28 @@
 #include <set>
 #ifdef _WIN32
 #include <winsock.h>
+#if !defined(HAVE_STRUCT_TIMESPEC)
+#define HAVE_STRUCT_TIMESPEC
+#if !defined(_TIMESPEC_DEFINED)
+#define _TIMESPEC_DEFINED
+struct timespec {
+    time_t tv_sec;
+    long tv_nsec;
+};
+#endif /* _TIMESPEC_DEFINED */
+#endif /* HAVE_STRUCT_TIMESPEC */
+
+#if defined max
+#undef max
+#undef min
+#endif
+
 #else
 #include <time.h>
 #endif
 
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 // source: https://stackoverflow.com/questions/5167269/clock-gettime-alternative-in-mac-os-x
 #ifdef __APPLE__
@@ -152,7 +170,7 @@ unsigned long long timeInMicroseconds(void)
 #ifdef __APPLE__
      tp = orwl_gettime();
 #else
-	 clock_gettime(CLOCK_REALTIME, &tp);
+	 clock_gettime(0, &tp);
 #endif
 
 	 return tp.tv_sec * 1000000 + tp.tv_nsec / 1000;
@@ -164,7 +182,7 @@ double timeInSeconds(void)
 #ifdef __APPLE__
      tp = orwl_gettime();
 #else
-	 clock_gettime(CLOCK_REALTIME, &tp);
+	 clock_gettime(0, &tp);
 #endif
 
 	 return static_cast<double>(tp.tv_sec) +

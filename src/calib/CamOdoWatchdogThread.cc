@@ -1,6 +1,7 @@
 #include "CamOdoWatchdogThread.h"
 
 #include <boost/make_shared.hpp>
+#include <thread>
 
 namespace camodocal
 {
@@ -69,7 +70,7 @@ CamOdoWatchdogThread::threadFunction(void)
             m_stop = stop;
         }
 
-        usleep(1000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 
     m_running = false;

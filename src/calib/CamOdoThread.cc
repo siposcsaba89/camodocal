@@ -12,6 +12,9 @@
 #include "../visual_odometry/FeatureTracker.h"
 #include "utils.h"
 
+#include <thread>
+#include <chrono>
+
 #ifdef VCHARGE_VIZ
 #include "../../../../library/gpl/CameraEnums.h"
 #endif
@@ -293,7 +296,8 @@ CamOdoThread::threadFunction(void)
                             exit(1);
                         }
 
-                        usleep(1000);
+                        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                        //usleep(1000);
                     }
 
                     m_interpOdometryBuffer.push(timeStamp, interpOdo);
@@ -315,7 +319,7 @@ CamOdoThread::threadFunction(void)
                             exit(1);
                         }
 
-                        usleep(1000);
+                        std::this_thread::sleep_for(std::chrono::milliseconds(1));
                     }
 
                     printf("LOC: %f %f %f\n", interpGpsIns->translation()[0], interpGpsIns->translation()[1], interpGpsIns->translation()[2]);

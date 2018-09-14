@@ -1,4 +1,4 @@
-camodocal_library(camodocal_dutils SHARED
+camodocal_library(camodocal_dutils STATIC
   BinaryFile.cpp
   ConfigFile.cpp
   DebugFunctions.cpp
@@ -11,5 +11,9 @@ camodocal_library(camodocal_dutils SHARED
   TimeManager.cpp
   Timestamp.cpp
 )
+
+if (MSVC)
+    target_link_libraries(camodocal_dutils PUBLIC Ws2_32.lib)
+endif()
 
 camodocal_install(camodocal_dutils)

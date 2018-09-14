@@ -9,6 +9,9 @@
 #include <opencv2/core/eigen.hpp>
 #endif //  defined(HAVE_OPENCV2) || defined(HAVE_OPENCV3)
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 namespace camodocal
 {
 

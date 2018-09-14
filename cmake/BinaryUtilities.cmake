@@ -65,7 +65,7 @@ function(_camodocal_test_intern _build _name)
 
   if(_build)
     add_executable(${_name}_test ${_name}_test.cc ${ARGN})
-    target_link_libraries(${_name}_test gtest gtest_main)
+    target_link_libraries(${_name}_test ${GTEST_BOTH_LIBRARIES})
     add_test(NAME ${_name}_test
              COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${_name}_test)
     camodocal_install(${_name}_test)

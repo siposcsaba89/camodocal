@@ -14,7 +14,7 @@ if(OpenCV_FOUND)
   endif()
 endif()
 
-camodocal_library(camodocal_dvision SHARED
+camodocal_library(camodocal_dvision STATIC
   BRIEF.cpp
   BundleCamera.cpp
   FSolver.cpp

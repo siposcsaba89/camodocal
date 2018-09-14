@@ -1,5 +1,5 @@
 if(OpenCV_FOUND AND HAVE_OPENCV_XFEATURES2D_NONFREE)
-camodocal_library(camodocal_features2d SHARED
+camodocal_library(camodocal_features2d STATIC
   ORBGPU.cc
   SurfGPU.cc
 )

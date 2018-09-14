@@ -5,7 +5,7 @@ include_directories(
   ../brisk/thirdparty/agast/include
 )
 
-camodocal_library(camodocal_visual_odometry SHARED
+camodocal_library(camodocal_visual_odometry STATIC
   FeatureTracker.cc
   SlidingWindowBA.cc
 )

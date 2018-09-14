@@ -227,7 +227,7 @@ HandEyeCalibration::estimateHandEyeScrewInitial(Eigen::MatrixXd& T,
             idx = 1;
         }
 
-        double discriminant = 4.0 * square(u1.dot(u2)) - 4.0 * (u1.dot(u1) * u2.dot(u2));
+        double discriminant = 4.0 * square2(u1.dot(u2)) - 4.0 * (u1.dot(u1) * u2.dot(u2));
         if (discriminant == 0.0 && mVerbose)
         {
 //            std::cout << "# INFO: Noise-free case" << std::endl;

@@ -251,7 +251,7 @@ CvEMEstimator::CvEMEstimator()
 
 int CvEMEstimator::runKernel( const CvMat* m1, const CvMat* m2, CvMat* model )
 {
-    run5Point(m1, m2, model); 
+    return run5Point(m1, m2, model); 
 }
 
 // Notice to keep compatibility with opencv ransac, q1 and q2 have

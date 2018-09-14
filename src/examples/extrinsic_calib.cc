@@ -222,7 +222,7 @@ main(int argc, char** argv)
                 int camera = -1;
                 uint64_t timestamp = 0;
 
-                if (sscanf(it->path().filename().c_str(), "camera_%d_%lu.png", &camera, &timestamp) != 2)
+                if (sscanf(it->path().filename().string().c_str(), "camera_%d_%lu.png", &camera, &timestamp) != 2)
                 {
                     printf("cannot find input image camera_[d]_[llu].png\n");
                     return 1;
@@ -234,7 +234,7 @@ main(int argc, char** argv)
             if (fs::is_regular_file(*it) && it->path().extension() == ".txt" && it->path().filename().string().find_first_of("pose_") == 0)
             {
                 uint64_t timestamp = 0;
-                if (sscanf(it->path().filename().c_str(), "pose_%lu.txt", &timestamp) != 1)
+                if (sscanf(it->path().filename().string().c_str(), "pose_%lu.txt", &timestamp) != 1)
                 {
                     printf("pose filename %s has a wrong name, must be pose_[llu].txt\n", it->path().filename().c_str());
                     return 1;

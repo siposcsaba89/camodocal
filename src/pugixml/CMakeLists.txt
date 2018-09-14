@@ -1,4 +1,4 @@
-camodocal_library(camodocal_pugixml SHARED
+camodocal_library(camodocal_pugixml STATIC
   pugixml.cpp
 )
 

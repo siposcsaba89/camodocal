@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
-set(PROJECT_VERSION 1.0.1)
 project(CAMODOCAL LANGUAGES C CXX)
+set(PROJECT_VERSION 1.0.1)
+set(HAVE_OPENCV_XFEATURES2D_NONFREE 1)
 
 
 ########################### Misc. Configs ##############################
@@ -163,18 +164,11 @@ include(GenerateExportHeader)
 
 install(
   FILES 
-      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindBLAS.cmake
-      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindEigen3.cmake
-      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindGflags.cmake
-      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindGlog.cmake
-      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindGTest.cmake
-      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindLAPACK.cmake
       ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindLibDL.cmake
       ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindLibm.cmake
       ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindLibnsl.cmake
       ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindLibrt.cmake
       ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindOpenMP.cmake
-      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindSuiteSparse.cmake
       ${CMAKE_CURRENT_SOURCE_DIR}/cmake/FindTBB.cmake
   DESTINATION ${INSTALL_CMAKE_DIR}
   COMPONENT Devel

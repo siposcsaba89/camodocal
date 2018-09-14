@@ -475,7 +475,7 @@ CameraRigBA::run(int beginStage, bool optimizeIntrinsics,
             std::cout << "# INFO: # local inter-map 3D-3D correspondences = "
                       << localInterMap2D2D.size() << std::endl;
 
-            size_t featureCount[m_cameraSystem.cameraCount()];
+            std::vector<size_t> featureCount(m_cameraSystem.cameraCount());
             for (int i = 0; i < m_cameraSystem.cameraCount(); ++i)
             {
                 featureCount[i] = 0;
@@ -1987,7 +1987,7 @@ CameraRigBA::optimize(int flags, bool optimizeZ, int nIterations)
     options.linear_solver_type = ceres::SPARSE_NORMAL_CHOLESKY;
     options.max_num_iterations = nIterations;
     options.num_threads = 8;
-    options.num_linear_solver_threads = 8;
+    //options.num_linear_solver_threads = 8;
 
     // intrinsics
     /// @todo vec<vec<>> is slow! consider alternatives like boost::static_vector multiarray, or even an eigen matrix

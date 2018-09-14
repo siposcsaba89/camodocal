@@ -4,7 +4,7 @@ include_directories(
   ../DVision
 )
 
-camodocal_library(camodocal_dbow2 SHARED
+camodocal_library(camodocal_dbow2 STATIC
   BowVector.cpp
   FBrief.cpp
   FeatureVector.cpp

@@ -4,7 +4,7 @@ include_directories(
   ${CERES_INCLUDE_DIRECTORIES}
 )
 
-camodocal_library(camodocal_camera_systems SHARED
+camodocal_library(camodocal_camera_systems STATIC
   CameraSystem.cc
 )
 

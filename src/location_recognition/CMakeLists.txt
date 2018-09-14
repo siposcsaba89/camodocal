@@ -6,7 +6,7 @@ include_directories(
   ../dbow2/DVision
 )
 
-camodocal_library(camodocal_location_recognition SHARED
+camodocal_library(camodocal_location_recognition STATIC
   LocationRecognition.cc
 )
 

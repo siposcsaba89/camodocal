@@ -9,7 +9,13 @@
 #include <opencv2/core/eigen.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+
+
 #include "../gpl/gpl.h"
+
+
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 namespace camodocal
 {
@@ -343,7 +349,7 @@ EquidistantCamera::estimateIntrinsics(const cv::Size& boardSize,
     {
         std::vector<Eigen::Vector2d, Eigen::aligned_allocator<Eigen::Vector2d> > center(boardSize.height);
 
-        double radius[boardSize.height];
+        std::vector<double> radius(boardSize.height);
         for (int r = 0; r < boardSize.height; ++r)
         {
             std::vector<cv::Point2d> circle;

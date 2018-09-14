@@ -1,5 +1,5 @@
 if(OpenCV_FOUND)
-camodocal_library(camodocal_dutilscv SHARED
+camodocal_library(camodocal_dutilscv STATIC
   Drawing.cpp
   Geometry.cpp
   GUI.cpp

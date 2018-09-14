@@ -19,6 +19,8 @@
 #include "../../../../visualization/overlay/GLOverlayExtended.h"
 #endif
 
+#include <thread>
+
 namespace camodocal
 {
 
@@ -454,7 +456,7 @@ CamRigOdoCalibration::pollWindow(boost::asio::io_service* io, bool* stop)
     {
         io->poll();
 
-        usleep(1000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 

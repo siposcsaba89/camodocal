@@ -1,5 +1,5 @@
 if(OpenCV_FOUND)
-camodocal_library(camodocal_chessboard SHARED
+camodocal_library(camodocal_chessboard STATIC
   Chessboard.cc
 )
 

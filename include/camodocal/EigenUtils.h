@@ -9,7 +9,7 @@ namespace camodocal
 {
 
 template<typename T>
-T square(const T & m)
+T square2(const T & m)
 {
     return m * m;
 }
@@ -268,7 +268,7 @@ T sampsonError(const Eigen::Matrix<T, 3, 3>& E,
     T x2tEx1 = p2.dot(Ex1);
 
     // compute Sampson error
-    T err = square(x2tEx1) / (square(Ex1(0,0)) + square(Ex1(1,0)) + square(Etx2(0,0)) + square(Etx2(1,0)));
+    T err = square2(x2tEx1) / (square2(Ex1(0,0)) + square2(Ex1(1,0)) + square2(Etx2(0,0)) + square2(Etx2(1,0)));
 
     return err;
 }

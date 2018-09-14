@@ -1,5 +1,5 @@
 if(OpenCV_FOUND)
-camodocal_library(camodocal_fivepoint SHARED
+camodocal_library(camodocal_fivepoint STATIC
   five-point/five-point.cpp
   five-point/modelest.cpp
 )

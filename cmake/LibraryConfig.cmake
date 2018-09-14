@@ -31,11 +31,13 @@ option(USE_INTERNAL_CERES "internal ceres-solver source code" OFF)
 
 ############### Library finding #################
 # Performs the search and sets the variables    #
-camodocal_required_dependency(BLAS)
+#camodocal_required_dependency(BLAS)
 camodocal_optional_dependency(CUDA)
-camodocal_required_dependency(Eigen3)
-camodocal_required_dependency(LAPACK)
+#camodocal_required_dependency(Eigen3)
+#camodocal_required_dependency(LAPACK)
+set(SuiteSparse_USE_LAPACK_BLAS ON)
 camodocal_required_dependency(SuiteSparse)
+#find_package(SuiteSparse REQUIRED CONFIG)
 
 if(NOT USE_INTERNAL_CERES)
 camodocal_optional_dependency(Ceres)

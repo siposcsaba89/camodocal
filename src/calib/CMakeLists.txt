@@ -1,4 +1,6 @@
 
+find_package(Eigen3 CONFIG)
+
 if(VCHARGE_D3D)
 include_directories(../D3D)
 endif(VCHARGE_D3D)
@@ -11,15 +13,6 @@ include_directories(
 
 endif(GLUT_FOUND)
 endif(VCHARGE_VIZ)
-
-include_directories(
-  ${CERES_INCLUDE_DIRECTORIES}
-  ../D3D
-  ../dbow2/DBoW2
-  ../dbow2/DUtils
-  ../dbow2/DUtilsCV
-  ../dbow2/DVision
-)
 
 set(SRCS
     HandEyeCalibration.cc
@@ -51,7 +44,7 @@ set(CALIB_OPTIONAL_DEPENDENCIES
 )
 endif(OpenCV_FOUND AND HAVE_OPENCV_XFEATURES2D_NONFREE)
 
-camodocal_library(camodocal_calib SHARED ${SRCS})
+camodocal_library(camodocal_calib STATIC ${SRCS})
 
 camodocal_link_libraries(camodocal_calib
   ${CAMODOCAL_PLATFORM_UNIX_LIBRARIES}
@@ -60,6 +53,14 @@ camodocal_link_libraries(camodocal_calib
   ${Boost_THREAD_LIBRARY}
   ${CALIB_OPTIONAL_DEPENDENCIES}
   ${CERES_LIBRARIES}
+  ::Eigen3
+)
+
+target_include_directories( camodocal_calib PRIVATE ../D3D
+  ../dbow2/DBoW2
+  ../dbow2/DUtils
+  ../dbow2/DUtilsCV
+  ../dbow2/DVision
 )
 
 if(VCHARGE_D3D)

@@ -1,4 +1,5 @@
 
+set (HAVE_OPENCV_XFEATURES2D_NONFREE 1)
 if(CAMODOCAL_CALIB_FOUND AND OpenCV_FOUND AND HAVE_OPENCV_XFEATURES2D_NONFREE)
 
 camodocal_executable(intrinsic_calib
@@ -41,6 +42,8 @@ camodocal_link_libraries(extrinsic_calib
   camodocal_calib
 )
 
+else ()
+message(FATAL_ERROR "valmai nem oke ${CAMODOCAL_CALIB_FOUND} ${OpenCV_FOUND} ${HAVE_OPENCV_XFEATURES2D_NONFREE}")
 endif(CAMODOCAL_CALIB_FOUND AND OpenCV_FOUND AND HAVE_OPENCV_XFEATURES2D_NONFREE)
 
 if(OpenCV_FOUND)

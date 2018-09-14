@@ -54,7 +54,7 @@ StereoCameraCalibration::calibrate(void)
     }
 
     // perform stereo calibration
-    int imageCount = imagePointsLeft().size();
+    int imageCount = int(imagePointsLeft().size());
 
     // find best estimate for initial transform from left camera frame to right camera frame
     double minReprojErr = std::numeric_limits<double>::max();
@@ -127,7 +127,7 @@ StereoCameraCalibration::calibrate(void)
     std::vector<cv::Mat> rvecsR(imageCount);
     std::vector<cv::Mat> tvecsR(imageCount);
 
-    double* extrinsicCameraLParams[scenePoints().size()];
+    std::vector<double*> extrinsicCameraLParams(scenePoints().size());
     for (int i = 0; i < imageCount; ++i)
     {
         extrinsicCameraLParams[i] = new double[7];

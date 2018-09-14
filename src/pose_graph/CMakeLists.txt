@@ -7,7 +7,7 @@ include_directories(
   ../dbow2/DVision
 )
 
-camodocal_library(camodocal_pose_graph SHARED
+camodocal_library(camodocal_pose_graph STATIC
   PoseGraph.cc
 )
 

@@ -497,7 +497,8 @@ CamOdoThread::threadFunction(void)
     }
 
     m_running = false;
-
+    m_image->notifyProcessingDone();
+    m_image->unlockData();
     m_signalFinished();
 }
 

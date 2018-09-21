@@ -53,6 +53,7 @@ main(int argc, char** argv)
     float keyframeDistance;
     std::string eventFile;
 
+    //-input f:\tmp\autokali\autocali\2018-01-24_03-33-33\scaled\input\ -data f:\tmp\autokali\autocali\2018-01-24_03-33-33\scaled\data\ -v -optimize-intrinsics -o f:\tmp\autokali\autocali\2018-01-24_03-33-33\scaled\output\ -calib f:\tmp\autokali\autocali\2018-01-24_03-33-33\scaled\calib\ -camera-count 4
     //================= Handling Program options ==================
     boost::program_options::options_description desc("Allowed options");
     desc.add_options()
@@ -217,7 +218,7 @@ main(int argc, char** argv)
 
         while (it != endit)
         {
-            if (fs::is_regular_file(*it) && it->path().extension() == ".png")
+            if (fs::is_regular_file(*it) && it->path().extension() == ".jpg")
             {
                 int camera = -1;
                 uint64_t timestamp = 0;
@@ -227,7 +228,7 @@ main(int argc, char** argv)
                     printf("cannot find input image camera_[d]_[llu].png\n");
                     return 1;
                 }
-                printf("image name : %s time : %ld", it->path().string().c_str(), timestamp);
+                printf("image name : %s time : %ld \n", it->path().string().c_str(), timestamp);
                 inputImages[camera][timestamp] = it->path().string();
             }
 
@@ -244,7 +245,7 @@ main(int argc, char** argv)
                 Eigen::Vector3f t;
                 Eigen::Matrix3f R;
                 std::ifstream file(it->path().c_str());
-                std::cout << "pose path : " << it->path().c_str() << std::endl;
+                std::cout << "pose path : " << it->path().string().c_str() << std::endl;
                 if (!file.is_open())
                 {
                     printf("cannot find file %s containg a valid pose\n", it->path().c_str());
@@ -522,6 +523,7 @@ main(int argc, char** argv)
         std::cout << H.block<3,1>(0,3).transpose() << std::endl;
     }*/
 
+    inputThread.join();
 
     float camHeightDiff = cameraSystem.getGlobalCameraPose(0)(2,3) - refCameraGroundHeight;
     std::cout << "# INFO: Current estimate (global):" << std::endl;
@@ -545,7 +547,6 @@ main(int argc, char** argv)
         std::cout << "Translation: " << std::endl;
         std::cout << T.transpose() << std::endl << std::endl;
     }
-    inputThread.join();
 
     return 0;
 }

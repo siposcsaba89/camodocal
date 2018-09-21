@@ -82,26 +82,31 @@ void
 CamRigOdoCalibration::addFrame(int cameraId, const cv::Mat& image,
                                uint64_t timestamp)
 {
+    if (m_finished) return;
     AtomicData<cv::Mat>* frame = m_images.at(cameraId);
 
+    std::cout << "blabla Locking frame!" << std::endl;
     frame->lockData();
-
     image.copyTo(frame->data());
+    std::cout << "blabla Frame locaked frame!" << std::endl;
 
     frame->timeStamp() = timestamp;
 
     frame->unlockData();
+    std::cout << "blabla Frame unlocked frame!" << std::endl;
 
     if (m_options.mode == OFFLINE)
     {
         frame->waitForProcessingDone();
     }
+    std::cout << "blabla Processing done!" << std::endl;
 }
 
 void
 CamRigOdoCalibration::addFrameSet(const std::vector<cv::Mat>& images,
                                   uint64_t timestamp)
 {
+    if (m_finished) return;
     if (images.size() != m_cameras.size())
     {
         std::cout << "# WARNING: Number of images does not match number of cameras." << std::endl;
@@ -175,10 +180,10 @@ CamRigOdoCalibration::start(void)
         boost::asio::deadline_timer timer(io, boost::posix_time::milliseconds(100));
         bool closeWindow = false;
 
-        for (size_t i = 0; i < m_cameras.size(); ++i)
-        {
-            cv::namedWindow(m_cameras.at(i)->cameraName());
-        }
+        //for (size_t i = 0; i < m_cameras.size(); ++i)
+        //{
+        //    cv::namedWindow(m_cameras.at(i)->cameraName());
+        //}
 
         timer.async_wait(boost::bind(&CamRigOdoCalibration::displayHandler, this, &timer, &closeWindow));
 
@@ -308,6 +313,7 @@ CamRigOdoCalibration::cameraSystem(void) const
 void
 CamRigOdoCalibration::onCamOdoThreadFinished(CamOdoThread* camOdoThread)
 {
+    m_finished = true;
     if (m_options.verbose)
     {
         double minError, maxError, avgError;

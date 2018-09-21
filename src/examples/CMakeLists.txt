@@ -5,6 +5,7 @@ if(CAMODOCAL_CALIB_FOUND AND OpenCV_FOUND AND HAVE_OPENCV_XFEATURES2D_NONFREE)
 camodocal_executable(intrinsic_calib
   intrinsic_calib.cc
 )
+set_target_properties(intrinsic_calib PROPERTIES DEBUG_POSTFIX _d)
 
 camodocal_link_libraries(intrinsic_calib
   ${CAMODOCAL_PLATFORM_UNIX_LIBRARIES}
@@ -29,11 +30,12 @@ camodocal_link_libraries(stereo_calib
   camodocal_calib
   camodocal_chessboard
 )
+set_target_properties(stereo_calib PROPERTIES DEBUG_POSTFIX _d)
 
 camodocal_executable(extrinsic_calib
   extrinsic_calib.cc
 )
-
+set_target_properties(extrinsic_calib PROPERTIES DEBUG_POSTFIX _d)
 camodocal_link_libraries(extrinsic_calib
   ${CAMODOCAL_PLATFORM_UNIX_LIBRARIES}
   ${Boost_FILESYSTEM_LIBRARY}

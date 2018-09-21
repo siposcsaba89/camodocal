@@ -274,20 +274,35 @@ SensorDataBuffer<T>::nearest(uint64_t timestamp, T& dataBefore, T& dataAfter)
     do
     {
         long int tsDiff = timestampDiff(timestamp, mBuffer.at(mark).first);
-        if (tsDiff < 0)
+        if (tsDiff <= 0)
         {
             if (mark == mIndex)
             {
                 // no data after timestamp
                 return false;
             }
-            else
+            else if (tsDiff < 0)
             {
                 dataBefore = mBuffer.at(mark).second;
                 dataAfter = mBuffer.at((mark + 1) % mBuffer.capacity()).second;
 
                 return true;
             }
+            else if (tsDiff == 0)
+            {
+                dataBefore = mBuffer.at(mark).second;
+                dataAfter = dataBefore;
+
+                return true;
+
+            }
+            else
+            {
+                assert(false && "Error in calculation!!!");
+                printf("Something went wrong with odometry interpolation!!! \n");
+                exit(-1);
+            }
+        
         }
 
         --mark;

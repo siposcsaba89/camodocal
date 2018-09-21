@@ -1522,7 +1522,9 @@ CameraRigBA::matchFrameToFrame(FramePtr& frame1, FramePtr& frame2,
         return;
     }
 
-    if (1)
+    ///Debug information
+    bool save_debug_information = false;
+    if (save_debug_information)
     {
         static boost::mutex rmutex;
         rmutex.lock();
@@ -1660,7 +1662,8 @@ CameraRigBA::matchFrameToFrame(FramePtr& frame1, FramePtr& frame2,
         corr2D2D->push_back(candidateCorr2D2D.at(i));
     }
 
-    if (1  && !corr2D2D->empty())
+    bool save_debug_imgs = false;
+    if (save_debug_imgs  && !corr2D2D->empty())
     {
         std::vector<cv::KeyPoint> keypoints1, keypoints2;
         std::vector<cv::DMatch> matches;

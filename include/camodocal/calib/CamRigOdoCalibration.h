@@ -20,6 +20,7 @@ class CamOdoWatchdogThread;
 class CamRigOdoCalibration
 {
 public:
+    bool m_finished = false;
     enum Mode
     {
         OFFLINE,

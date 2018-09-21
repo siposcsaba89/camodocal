@@ -163,7 +163,7 @@ int main(int argc, char** argv)
         {
             if (verbose)
             {
-                std::cerr << "# INFO: Detected chessboard in image " << i + 1 << std::endl;
+                std::cerr << "# INFO: Detected chessboard in image " << i + 1 <<" " << imageFilenames[i] << std::endl;
             }
 
             calibration.addChessboardData(chessboard.getCorners());
@@ -172,7 +172,7 @@ int main(int argc, char** argv)
             chessboard.getSketch().copyTo(sketch);
 
             cv::imshow("Image", sketch);
-            cv::waitKey(50);
+            cv::waitKey(0);
         }
         else if (verbose)
         {

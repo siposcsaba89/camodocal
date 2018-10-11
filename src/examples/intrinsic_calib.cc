@@ -182,7 +182,7 @@ int main(int argc, char** argv)
     }
     cv::destroyWindow("Image");
 
-    if (calibration.sampleCount() < 10)
+    if (calibration.sampleCount() < 5)
     {
         std::cerr << "# ERROR: Insufficient number of detected chessboards." << std::endl;
         return 1;

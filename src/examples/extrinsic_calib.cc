@@ -52,6 +52,8 @@ main(int argc, char** argv)
     float refCameraGroundHeight;
     float keyframeDistance;
     std::string eventFile;
+    uint64_t time_from = 400;
+    uint64_t time_to = 800;
 
     //-input f:\tmp\autokali\autocali\2018-01-24_03-33-33\scaled\input\ -data f:\tmp\autokali\autocali\2018-01-24_03-33-33\scaled\data\ -v -optimize-intrinsics -o f:\tmp\autokali\autocali\2018-01-24_03-33-33\scaled\output\ -calib f:\tmp\autokali\autocali\2018-01-24_03-33-33\scaled\calib\ -camera-count 4
     //================= Handling Program options ==================
@@ -73,6 +75,8 @@ main(int argc, char** argv)
         ("ref-height", boost::program_options::value<float>(&refCameraGroundHeight)->default_value(0), "Height of the reference camera (cam=0) above the ground (cameras extrinsics will be relative to the reference camera)")
         ("keydist", boost::program_options::value<float>(&keyframeDistance)->default_value(0.4), "Distance of rig to be traveled before taking a keyframe (distance is measured by means of odometry poses)")
         ("verbose,v", boost::program_options::bool_switch(&verbose)->default_value(false), "Verbose output")
+        ("time-from", boost::program_options::value(&time_from)->default_value(0), "Timestamp from do the calibration")
+        ("time-to", boost::program_options::value(&time_to)->default_value(-1), "Timestamp to do the calibration")
         ;
     boost::program_options::variables_map vm;
     boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
@@ -207,6 +211,8 @@ main(int argc, char** argv)
     std::vector< ImageMap > inputImages(cameraCount);
     IsometryMap inputOdometry;
     bool bUseGPS = false;
+
+
     if (eventFile.length() == 0)
     {
         printf("Get images and pose files out from result directory\n");
@@ -228,11 +234,12 @@ main(int argc, char** argv)
                     printf("cannot find input image camera_[d]_[llu].png\n");
                     return 1;
                 }
-                printf("image name : %s time : %ld \n", it->path().string().c_str(), timestamp);
-                inputImages[camera][timestamp] = it->path().string();
-            }
-
-            if (fs::is_regular_file(*it) && it->path().extension() == ".txt" && it->path().filename().string().find_first_of("pose_") == 0)
+                if (timestamp > time_from && timestamp < time_to)
+                {
+                    printf("image name : %s time : %ld \n", it->path().string().c_str(), timestamp);
+                    inputImages[camera][timestamp] = it->path().string();
+                }
+            } else if (fs::is_regular_file(*it) && it->path().extension() == ".txt" && it->path().filename().string().find_first_of("pose_") == 0)
             {
                 uint64_t timestamp = 0;
                 if (sscanf(it->path().filename().string().c_str(), "pose_%lu.txt", &timestamp) != 1)
@@ -241,30 +248,33 @@ main(int argc, char** argv)
                     return 1;
                 }
 
-                // read pose
-                Eigen::Vector3f t;
-                Eigen::Matrix3f R;
-                std::ifstream file(it->path().c_str());
-                std::cout << "pose path : " << it->path().string().c_str() << std::endl;
-                if (!file.is_open())
+                if (timestamp > time_from && timestamp < time_to)
                 {
-                    printf("cannot find file %s containg a valid pose\n", it->path().c_str());
-                    return 1;
+                    // read pose
+                    Eigen::Vector3f t;
+                    Eigen::Matrix3f R;
+                    std::ifstream file(it->path().c_str());
+                    std::cout << "pose path : " << it->path().string().c_str() << std::endl;
+                    if (!file.is_open())
+                    {
+                        printf("cannot find file %s containg a valid pose\n", it->path().c_str());
+                        return 1;
+                    }
+
+                    file >> R(0, 0) >> R(0, 1) >> R(0, 2);
+                    file >> R(1, 0) >> R(1, 1) >> R(1, 2);
+                    file >> R(2, 0) >> R(2, 1) >> R(2, 2);
+                    file >> t[0] >> t[1] >> t[2];
+
+                    file.close();
+
+
+                    Eigen::Isometry3f T;
+
+                    T.matrix().block<3, 3>(0, 0) = R;
+                    T.matrix().block<3, 1>(0, 3) = t;
+                    inputOdometry[timestamp] = T;
                 }
-
-                file >> R(0,0) >> R(0, 1) >> R(0, 2);
-                file >> R(1,0) >> R(1, 1) >> R(1, 2);
-                file >> R(2,0) >> R(2, 1) >> R(2, 2);
-                file >> t[0] >> t[1] >> t[2];
-                
-                file.close();
-
-
-                Eigen::Isometry3f T;
-
-                T.matrix().block<3,3>(0,0) = R;
-                T.matrix().block<3,1>(0,3) = t;
-                inputOdometry[timestamp] = T;
             }
 
             it++;
